@@ -6,8 +6,8 @@ let index = 0;
 let value = [0]
 let cnt;
 
-let privateKey = "L3tvu27nKabnQjwnUDvNVreoTn8dBnnivADXPqmpxxEPV3pZcot4";
-let fromAddress = "18qTAEu8HGZkw3rPTNCLYMobH9WMK2GrGX";
+let privateKey = "";
+let fromAddress = "";
 
 let client = new CoinStack('c7dbfacbdf1510889b38c01b8440b1', '10e88e9904f29c98356fd2d12b26de', 'c3sp2.blocko.io', 'https');
 
