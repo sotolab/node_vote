@@ -1,0 +1,169 @@
+<!Doctype html>
+<html>
+
+<head>
+    <title> 투표 시스템 </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- bootsrtap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-latest.js "></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //getListAll()
+            let DEBUG = 1;
+            console.log('starting...');
+
+            $('#getList').on('click', function () {
+                console.log("getResult");
+                clearTable();
+
+                $.get("/listall", function (data) {
+                    if (DEBUG) console.log('listall : ', data.getLists);
+                    let table = document.getElementById("table1");
+
+                    let length = data.getLists[0].length
+                    if (DEBUG) console.log('length : ', length);
+
+                    for (let i = 0; i < length; i++) {
+                        let row = table.insertRow();
+                        let cell1 = row.insertCell(0);
+                        let cell2 = row.insertCell(1);
+                        cell1.innerHTML = data.getLists[0][i].menu;
+                        cell2.innerHTML = data.getLists[0][i].score;
+
+                        if (DEBUG) {
+                            console.log('menu : ', data.getLists[0][i].menu + ", score : " + data.getLists[0][i].score);
+                        }
+                    }
+                });  // end of post
+            });  // end of getlist
+
+
+            // function definition() 
+            $('#definition').on('click', function () {
+                if (DEBUG) {
+                    console.log('+definition');
+                }
+
+                $.get("/definition", function (data) {
+                    console.log('listall : ', data);
+                    alert(data.message);
+                })
+
+            }); // end of definition
+
+            // function createVote() 
+            $('#createVote').on('click', function () {
+                if (DEBUG) {
+                    console.log('+createVote');
+                }
+
+                $.get("/createVote", function (data) {
+                    console.log('createVote : ', data);
+                    alert(data.message);
+                })  // end of get 
+
+            }); // end of createVote
+
+            // function createVote() 
+            $('#myvote').on('click', function () {
+
+                let candidate = $("#candidate").val();
+
+                if (DEBUG) {
+                    console.log('+myvote: ' + candidate);
+                }
+
+                $.post("/myvote", {candidate: candidate}, function (data) {
+                    console.log('myvote : ', data);
+                    alert(candidate +"\n"+data.message);
+                }) // end of post  
+
+            });  // end of myvote
+
+            function clearTable() {
+                var tableRef = document.getElementById('table1');
+                while (tableRef.rows.length > 0) {
+                    tableRef.deleteRow(0);
+                }
+            }  // end of clearTable
+
+        });  // end of ready
+
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                </button>
+                <a class="navbar-brand" href="#">Blocko</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">BTC Vote</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+
+    <div class="container theme-showcase" role="main">
+        <div class='row'>
+            <div class='col'>
+                <h2>
+                    <strong> Welcome to Web Vote </strong>
+                </h2>
+                <!-- <div id="tablePlace"></div> -->
+                <button type="button" id="definition">정의를 하지 않았다면</button>
+                <button type="button" id="createVote">투표를 생성 하지 않았다면</button>
+                <div class="panel-body">
+                    <input type="text" id="candidate" />
+                    <button type="button" id="myvote">투표</button>
+                    <!-- <p> Message </P> -->
+                    <div id=" description"></div>
+
+                    <div id="tablePlace"></div>
+
+                    <div id="resultPlace"></div>
+
+                    <div class="panel-body ">
+                        <!-- <p> Message </P> -->
+                        <div id="description"></div>
+                        <div id="tablePlace">
+                            <button type="button" id="getList">리스트 새로고침</button>
+                        </div>
+                        <div id="resultPlace"></div>
+                        <table style="width:100%" id="table1"></table>
+                    </div>
+
+                </div>
+
+                <script>
+                    // getResult();
+                </script>
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+<footer class="py-5 bg-dark ">
+    <div class="container ">
+        <p class="m-0 text-center text-white ">
+            <b>Copyright &copy; Blocko 2019</b>
+        </p>
+    </div>
+</footer>
+
+</body>
+
+
+</html>
